@@ -1,0 +1,75 @@
+server:
+  port: 8083
+
+
+
+Show-Images-SERVICE:
+  ribbon:
+    eureka:
+      enabled: true
+    listOfServers: localhost:8085,localhost:8086,localhost:8087
+    ServerListRefreshInterval: 15000
+
+
+
+Add-Update-Images-SERVICE:
+  ribbon:
+    eureka:
+      enabled: true
+    listOfServers: localhost:8090,localhost:8091,localhost:8092
+    ServerListRefreshInterval: 15000
+---
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: AddModule
+        uri:  lb://Add-Update-Images-SERVICE/
+        predicates:
+        - Path=/Edit/**
+
+      - id: ImageModule
+        uri:  lb://Show-Images-SERVICE/
+        predicates:
+        - Path=/Show/**
+
+
+  application:
+    name:  Gateway-SERVICE
+
+---
+spring:
+  profiles: zone1
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    registerWithEureka: true
+    preferSameZoneEureka: true
+  instance:
+    metadataMap:
+      zone: zone1
+server:
+  port: ${PORT:8761}
+
+---
+spring:
+  profiles: zone2
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8762/eureka/
+    registerWithEureka: false
+    preferSameZoneEureka: true
+  instance:
+    metadataMap:
+      zone: zone2
+server:
+  port: ${PORT:8762}
+---
+spring:
+  zipkin:
+    base-url: http://localhost:9411
+  sleuth:
+    sampler:
+      probability: 0.5

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home Images</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/line-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="assets/css/Lightbox-Gallery.css">
+    <link rel="stylesheet" href="assets/css/lightbox.min.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Search.css">
+    <link rel="stylesheet" href="assets/css/Simple-Slider.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/swiper.min.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-light navbar-expand-md fixed-top shadow-sm navigation-clean-search">
+            <div class="container"><a class="navbar-brand" href="/">Images Company</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1" style="color: var(--pink);background: #450a3b;"><span class="sr-only" style="color: var(--pink);">Toggle navigation</span><span class="navbar-toggler-icon" style="color: var(--pink);"></span></button>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="/Home" style="color: var(--white);font-style: normal;">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/AddImage" style="color: var(--white);font-style: normal;">Add Image</a></li>
+                    </ul>
+
+                    <form class="form-inline mr-auto" action="/Home" role="search" target="_self">
+                        <div class="form-group">
+                            <label for="search-field"><i class="fa fa-search align-self-end"></i></label>
+                            <input class="form-control search-field" required="required" placeholder="Search By Name" type="search" id="search-field" name="search">
+                        </div>
+                    </form>
+
+                    <div class="dropdown"><a class="dropdown-toggle" aria-expanded="false" data-toggle="dropdown" href="#">Register</a>
+                        <div class="dropdown-menu"><a class="dropdown-item" href="/register">Sign in</a><a class="dropdown-item" href="/login">Login</a><a class="dropdown-item" href="/logout">Logout</a></div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main -->
+    <main style="margin-top: 100px;">
+        <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
+            <table class="table my-0" id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Like</th>
+                        <th>Unlike</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="image : ${list}" >
+                        <td> <img class="img-thumbnail mr-2" width="100" height="100"  th:src="@{${'/Image/display/' + image.id}}">
+                        </td>
+                        <td th:text="${image.name}"></td>
+                        <td th:text="${image.image_category}"></td>
+                        <td th:text="${image.mylike}"></td>
+                        <td th:text="${image.unlike}"></td>
+                        <td>
+                            <form action="/UpdateImage" method="get" enctype="multipart/form-data" style="display: inline">
+                                <input hidden="hidden" type="number" name="id" th:value="${image.id}">
+                                <button class="btn"  style="background: rgb(217,170,199);border-radius: 31px;margin: 1px;">
+                                    <i class="fa fa-edit" style="color: var(--blue);margin: 1px;"></i>
+                                </button>
+                            </form>
+                            <a class="btn" th:href="@{${'/Delete/' + image.id}}" style="background: rgb(217,170,199);border-radius: 30px;margin: 1px;"><i class="fa fa-trash" style="color: var(--red);margin: 1px;background: rgb(217,170,199);"></i></a>
+                            <a class="btn" th:href="@{${'/Download/' + image.id}}" style="background: rgb(217,170,199);border-radius: 32px;margin: 1px;"><i class="fa fa-download" style="color: var(--success);"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <td><strong>Image</strong></td>
+                        <td><strong>Name</strong></td>
+                        <td><strong>Category</strong></td>
+                        <td><strong>Like</strong></td>
+                        <td><strong>Unlike</strong></td>
+                        <td><strong>Action</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </main>
+    <footer class="shadow-sm footer-basic" style="margin-top: 73px;">
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="/Home">Home</a></li>
+            <li class="list-inline-item"><a href="/AddImage">Add Images</a></li>
+        </ul>
+        <p class="copyright" style="color: var(--white);">Images Company © 2021</p>
+    </footer>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="assets/js/lightbox.min.js"></script>
+    <script src="assets/js/Simple-Slider.js"></script>
+    <script src="assets/js/swiper.jquery.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Images</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/line-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="assets/css/Lightbox-Gallery.css">
+    <link rel="stylesheet" href="assets/css/lightbox.min.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Search.css">
+    <link rel="stylesheet" href="assets/css/Simple-Slider.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/swiper.min.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <nav class="navbar navbar-light navbar-expand-md fixed-top shadow-sm navigation-clean-search">
+            <div class="container"><a class="navbar-brand" href="/">Images Company</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1" style="color: var(--pink);background: #450a3b;"><span class="sr-only" style="color: var(--pink);">Toggle navigation</span><span class="navbar-toggler-icon" style="color: var(--pink);"></span></button>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="/Home" style="color: var(--white);font-style: normal;">Home</a></li>
+                    </ul>
+
+                    <form class="form-inline mr-auto" action="/index" role="search" target="_self">
+                        <div class="form-group">
+                            <select class="form-control form-control-sm" required="" name="typeImage">
+                                <optgroup label="Select Image Type">
+                                    <option value="All" selected="">All</option>
+                                    <option th:each="imgtype : ${listImgType}" th:value="${imgtype.getType()}"
+                                     th:text="${imgtype.getType()}"></option>
+                                </optgroup>
+                            </select>
+                            <label for="search-field"><i class="fa fa-search align-self-end"></i></label>
+                            <input class="form-control search-field" required="required" placeholder="Search By Name" type="search" id="search-field" name="search">
+                        </div>
+                    </form>
+
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" aria-expanded="false" data-toggle="dropdown" href="#">Register</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/register">Sign in</a>
+                            <a class="dropdown-item" href="/login">Login</a>
+                            <a class="dropdown-item" href="/logout">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main-->
+    <main style="margin-top: 80px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="simple-slider">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" style="background: url(&quot;assets/img/nature-3082832_1920.jpg&quot;) center center / cover no-repeat;"></div>
+                                <div class="swiper-slide" style="background: url(&quot;assets/img/desk.jpg&quot;) center center / cover no-repeat;"></div>
+                                <div class="swiper-slide" style="background: url(&quot;assets/img/earth-11595_1920.jpg&quot;) center center / cover no-repeat;"></div>
+                            </div>
+                            <div class="swiper-pagination" style="background: rgba(0,0,0,0);"></div>
+                            <div class="d-lg-flex justify-content-lg-center align-items-lg-center swiper-button-prev"><i class="la la-angle-double-left" style="font-size: 30px;color: var(--pink);"></i></div>
+                            <div class="d-lg-flex justify-content-lg-center align-items-lg-center swiper-button-next"><i class="la la-angle-double-right" style="font-size: 30px;color: var(--pink);"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <h2 class="text-center" style="color: var(--pink);">Images</h2>
+                </div>
+            </div>
+
+
+            <div class="row" style="margin-bottom: 2px;">
+
+                <div class="col-md-6 col-lg-4" th:each="image : ${list}">
+                    <div class="card" data-aos="fade-up-right" style="background: linear-gradient(0deg, #450a3b, #d9aac7), rgba(255,0,214,0.25);text-align: center;">
+                        <img class="card-img-top w-100  d-block" data-bss-parallax-bg="true"
+                             th:src="@{${'/Image/display/' + image.id}}" style="background-position: center;background-size: cover;">
+                        <div class="card-body">
+                            <h4 class="card-title" style="text-align: center;color: rgb(255,255,255);" th:text="${image.name}">Title</h4>
+                            <p class="card-title" style="text-align: center;color: rgb(255,255,255);" th:text="${'Category: '+image.image_category}"></p>
+
+                            <a class="card-link" th:href="@{${'/Download/' + image.id}}"><i class="fa fa-download" style="color: #ffffff;"></i></a>
+
+                            <a class="card-link" th:href="@{${'/like/' + image.id}}"><i class="icon-like" style="color: #ffffff;"></i>
+                                <label style="color: var(--white);margin: 1px;" th:text="${image.mylike}"></label></a>
+
+                            <a class="card-link" th:href="@{${'/unlike/' + image.id}}"><i class="icon-dislike" style="color: #ffffff;"></i>
+                                <label style="color: var(--white);margin: 1px;" th:text="${image.unlike}"></label></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="shadow-sm footer-basic">
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="/Home">Home</a></li>
+            <li class="list-inline-item"><a href="/AddImage">Add Images</a></li>
+        </ul>
+        <p class="copyright" style="color: var(--white);">Images Company © 2021</p>
+    </footer>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/lightbox.min.js"></script>
+    <script src="assets/js/Simple-Slider.js"></script>
+    <script src="assets/js/swiper.jquery.min.js"></script>
+</body>
+
+</html>
